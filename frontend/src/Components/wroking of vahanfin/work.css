@@ -1,0 +1,42 @@
+.working{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.working h1{
+    color: #171717;
+    font-size: 50px;
+    font-weight: 600;
+}
+.work{
+    display: flex;
+    gap: 80px;
+    height: 40vh;
+    padding: 10px;
+    
+    
+}
+.working hr{
+    width: 200px;
+    height: 6px;    
+    border-radius: 10px;
+    background:#252525;
+}
+.work-item{
+    
+    display: flex;  
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+}   
+.work-item img{
+    width: 100px;
+    padding-top: 10px;
+    padding-left: 10px;
+
+}

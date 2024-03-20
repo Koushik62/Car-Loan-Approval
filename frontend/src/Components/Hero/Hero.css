@@ -1,0 +1,44 @@
+.hero{
+    height: 100vh;
+    background: rgba(199, 216, 189, 0.067);
+    display: flex;
+}
+
+.hero-left{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:20px;
+    padding-left:50px;
+    line-height: 1.1;
+}
+
+.hero-left h2{
+color:#0b25ba;
+font-size: 40px;
+font-weight: 600;     
+}
+
+.hero-left p{
+    color: #171717;
+    font-size: 15px;
+    font-weight: 100px;
+}
+
+
+.hero-right{
+    flex :1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+}
+
+.hero-right img{
+    width: 550px;
+    height: 450px;
+}
+
+
+
