@@ -89,10 +89,54 @@ const request = require('request');
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+// Function to make GET request to fetch task details
+const getTaskDetails = (requestId) => {
+  const apiKey = '7df1cd02-8bb5-4913-b85a-8034b42b7292';
+  const accountId = 'fdc3277c91ce/875ef6a3-3b5c-42ee-9b5c-22edc41f1963';
+  const apiUrl = `https://eve.idfy.com/v3/tasks`;
+  const getRequestUrl = `${apiUrl}?request_id=${requestId}`;
+
+  const options = {
+    method: 'GET',
+    url: getRequestUrl,
+    headers: {
+      'api-key': apiKey,
+      'account-id': accountId,
+      'Content-Type': 'application/json'
+    }
+  };
+
+  request(options, (error, response, body) => {
+    if (error) {
+      console.error('Error:', error);
+      res.status(500).send('Error fetching task details');
+      return;
+    }
+
+    console.log(body);
+
+    const taskDetails = JSON.parse(body);
+    if (taskDetails.status === "completed") {
+      // Task completed, send response
+      //res.send(body);
+    } else if (taskDetails.status === "in_progress") {
+      // Task still in progress, wait for some time and check again
+      setTimeout(() => {
+        getTaskDetails(requestId); // Recursive call
+      }, 5000); // Wait for 5 seconds before checking again
+    } else {
+      // Handle other statuses if needed
+      //res.status(500).send('Task status: ' + taskDetails.status);
+    }
+  });
+};
+
+
+
 // POST endpoint to handle /challans
 app.post('/challans', (req, res) => {
-  const apiKey = req.header('096ba636-90b7-4c10-842c-15f1f655d474');
-  const accountId = req.header('07fb0057ed0c/d1add25b-4bf1-4b51-a659-8c523dc282ad');
+  const apiKey = '7df1cd02-8bb5-4913-b85a-8034b42b7292';
+  const accountId = 'fdc3277c91ce/875ef6a3-3b5c-42ee-9b5c-22edc41f1963';
   const externalApiUrl = 'https://eve.idfy.com/v3/tasks/async/verify_with_source/aadhaar_lite'; // Replace with your external API URL
   const requestData = req.body;
 
@@ -103,7 +147,7 @@ app.post('/challans', (req, res) => {
     headers: {
       'api-key': apiKey,
       'account-id': accountId,
-      
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(requestData)
   };
@@ -116,9 +160,21 @@ app.post('/challans', (req, res) => {
     }
 
     console.log('Response from external API:', body);
-    res.send(body);
+    
+    const responsebody = JSON.parse(body);
+    const requestId = responsebody.request_id;
+    
+    console.log(requestId);
+    
+    setTimeout(() => {
+      getTaskDetails(requestId); // Recursive call
+    }, 5000);
+
   });
 });
+
+
+
 
 
 
